@@ -2,6 +2,8 @@
 
 namespace Kineticamobile\Atrochar;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +28,29 @@ class AtrocharServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
+
+        Collection::macro('reorder', function () {
+            $orderNumber = 1;
+            foreach($this->items as $item)
+            {
+                if( $item instanceof Menu ){
+                    $item->order = $orderNumber;
+                    $orderNumber++;
+                }
+            }
+            return new static($this->items);
+        });
+
+        Collection::macro('move', function ($from, $to) {
+            // https://stackoverflow.com/questions/12624153/move-an-array-element-to-a-new-index-in-php
+            $output = $this->items;
+            array_splice($output, $to, 0, array_splice($output,$from,1));
+            return new static($output);
+        });
+
+        Collection::macro('moveAndReorder', function ($from, $to) {
+            return new static($this->move($from, $to)->reorder());
+        });
     }
 
     /**

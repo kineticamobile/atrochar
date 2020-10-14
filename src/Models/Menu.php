@@ -9,7 +9,15 @@ class Menu extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'href', 'menu_id', 'newwindow', 'order'];
+    protected $fillable = [
+        'name',
+        'description',
+        'href',
+        'menu_id',
+        'newwindow',
+        'iframe',
+        'order'
+    ];
 
     public static function whole($menuName)
     {

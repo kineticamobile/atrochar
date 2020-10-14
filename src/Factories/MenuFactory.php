@@ -26,6 +26,7 @@ class MenuFactory extends Factory
             'description' => $this->faker->word,
             'href' => $this->faker->url,
             'newwindow' => $this->faker->boolean,
+            'iframe' => $this->faker->boolean,
             'menu_id' => null,
             'order' => 1
         ];

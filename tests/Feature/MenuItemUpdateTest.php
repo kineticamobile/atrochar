@@ -27,12 +27,13 @@ class MenuItemUpdateTest extends TestCase
         $this->createMenu(3);
     }
 
-    public function testCheckMenuItemIs_3()
+    public function testCheckMenuItemIs_3OutOf_6()
     {
         $this->assertEquals($this->itemMenu->order, 3);
+        $this->assertEquals($this->parentMenu->menus()->count(), 6);
     }
 
-    public function xtestChangeMenuItemToPosition_2()
+    public function testChangeMenuItemToPosition_2()
     {
         $updateData = $this->updateMenu();
         $updateData['order'] = 2;
@@ -44,6 +45,30 @@ class MenuItemUpdateTest extends TestCase
         $this->assertEquals($this->itemMenu->order, 2);
     }
 
+    public function testChangeMenuItemToPosition_10RemainsOnBound_6()
+    {
+        $updateData = $this->updateMenu();
+        $updateData['order'] = 10;
+        $response = $this->put('atrochar/menuitems/' . $this->itemMenu->id, $updateData);
+
+        $response->assertStatus(302);
+
+        $this->itemMenu->refresh();
+        $this->assertEquals($this->itemMenu->order, 6);
+    }
+
+    public function testChangeMenuItemToPositionNegative_3RemainsOnBound_1()
+    {
+        $updateData = $this->updateMenu();
+        $updateData['order'] = -3;
+        $response = $this->put('atrochar/menuitems/' . $this->itemMenu->id, $updateData);
+
+        $response->assertStatus(302);
+
+        $this->itemMenu->refresh();
+        $this->assertEquals($this->itemMenu->order, 1);
+    }
+
     protected function updateMenu()
     {
         return [
@@ -51,6 +76,7 @@ class MenuItemUpdateTest extends TestCase
             "description" => $this->faker->sentence,
             "href" => $this->faker->url,
             "newwindow" => $this->faker->boolean,
+            "iframe" => $this->faker->boolean,
         ];
     }
 

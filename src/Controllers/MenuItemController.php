@@ -85,7 +85,6 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, Menu $menuitem)
     {
-        //dd($menuitem);
         $validatedAttributes = request()->validate([
             "name" => "required",
             "description" => "required",
@@ -94,7 +93,22 @@ class MenuItemController extends Controller
             "order" => "required"
         ]);
 
+        $menuitem->fill($validatedAttributes);
 
+        if( $menuitem->isDirty('order') ){
+            $from = $menuitem->getOriginal('order') - 1;
+            $to = $menuitem->order - 1;
+            $to = $to < 0 ? 0 : $to;
+            $collection = Menu::with('menus')
+                    ->find($menuitem->menu_id)
+                    ->menus
+                    ->moveAndReorder($from, $to)
+                    ->map(fn($menu) => $menu->save())
+            ;
+            //dd($collection);
+        }
+
+        return redirect(route("atrochar.menus.show", $menuitem->menu_id));
     }
 
     /**

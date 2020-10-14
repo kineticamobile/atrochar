@@ -19,6 +19,7 @@ class CreateMenusTable extends Migration
             $table->string('description')->nullable();
             $table->string('href'); // http(s) or route name
             $table->boolean('newwindow')->default(false); // open on new window
+            $table->boolean('iframe')->default(false); // open inside iframe
             $table->foreignId('menu_id')->nullable()->constrained();
             $table->integer('order')->default(0);
             $table->timestamps();

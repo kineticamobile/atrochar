@@ -40,6 +40,7 @@ class MenuCreateTest extends TestCase
             "description" => $this->faker->sentence,
             "href" => $this->faker->url,
             "newwindow" => $this->faker->boolean,
+            "iframe" => $this->faker->boolean,
         ]);
 
         $response->assertStatus(302)->assertRedirect('atrochar/menus');
@@ -75,7 +76,7 @@ class MenuCreateTest extends TestCase
         ]);
 
         $response->assertStatus(302)
-                 ->assertSessionHasErrors("href","The description field is required.")
+                 ->assertSessionHasErrors("href","The href field is required.")
         ;
     }
 
@@ -88,7 +89,21 @@ class MenuCreateTest extends TestCase
         ]);
 
         $response->assertStatus(302)
-                 ->assertSessionHasErrors("newwindow","The description field is required.")
+                 ->assertSessionHasErrors("newwindow","The newwindow field is required.")
+        ;
+    }
+
+    public function testErrorOnCreateIfNoIframe()
+    {
+        $response = $this->post('atrochar/menus/', [
+            "name" => $this->faker->name,
+            "description" => $this->faker->sentence,
+            "href" => $this->faker->url,
+            "newwindow" => $this->faker->boolean
+        ]);
+
+        $response->assertStatus(302)
+                 ->assertSessionHasErrors("iframe","The iframe field is required.")
         ;
     }
 }

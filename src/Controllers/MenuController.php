@@ -41,6 +41,7 @@ class MenuController extends Controller
             "description" => "required",
             "href" => "required",
             "newwindow" => "required",
+            "iframe" => "required",
         ]);
 
         $validatedAttributes["menu_id"] = null;

@@ -48,6 +48,7 @@ class MenuItemAddTest extends TestCase
             "description" => $this->faker->sentence,
             "href" => $this->faker->url,
             "newwindow" => $this->faker->boolean,
+            "item" => $this->faker->boolean
         ]);
 
         $response->assertStatus(302)->assertRedirect('atrochar/menus/1');
