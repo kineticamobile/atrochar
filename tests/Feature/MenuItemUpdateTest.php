@@ -69,6 +69,20 @@ class MenuItemUpdateTest extends TestCase
         $this->assertEquals($this->itemMenu->order, 1);
     }
 
+    public function testChangeMenuItemIconSuccessfully()
+    {
+        $updateData = $this->updateMenu();
+        $updateData['order'] = 3;
+        $updateData['icon'] = "laptop";
+        $updateData['name'] = "prueba";
+        $response = $this->put('atrochar/menuitems/' . $this->itemMenu->id, $updateData);
+
+        $response->assertStatus(302);
+
+        $this->itemMenu->refresh();
+        $this->assertEquals($this->itemMenu->icon, "laptop");
+    }
+
     protected function updateMenu()
     {
         return [
@@ -77,6 +91,7 @@ class MenuItemUpdateTest extends TestCase
             "href" => $this->faker->url,
             "newwindow" => $this->faker->boolean,
             "iframe" => $this->faker->boolean,
+            "icon" => $this->faker->word,
         ];
     }
 
@@ -87,6 +102,8 @@ class MenuItemUpdateTest extends TestCase
             "description" => $this->faker->sentence,
             "href" => $this->faker->url,
             "newwindow" => $this->faker->boolean,
+            "iframe" => $this->faker->boolean,
+            "icon" => $this->faker->word,
         ];
     }
 

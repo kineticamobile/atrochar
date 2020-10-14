@@ -49,6 +49,8 @@ class MenuItemController extends Controller
 
         $validatedAttributes["menu_id"] = request("parent");
         $validatedAttributes["order"] = 1 + Menu::where('menu_id', request("parent"))->count();
+        $validatedAttributes['icon'] = request('icon');
+
         Menu::create($validatedAttributes);
 
         return redirect(route("atrochar.menus.show", request("parent")));
@@ -85,6 +87,7 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, Menu $menuitem)
     {
+
         $validatedAttributes = request()->validate([
             "name" => "required",
             "description" => "required",
@@ -93,7 +96,9 @@ class MenuItemController extends Controller
             "order" => "required"
         ]);
 
-        $menuitem->fill($validatedAttributes);
+        $validatedAttributes['icon'] = request('icon');
+
+        $menuitem->order = $validatedAttributes["order"];
 
         if( $menuitem->isDirty('order') ){
             $from = $menuitem->getOriginal('order') - 1;
@@ -102,11 +107,17 @@ class MenuItemController extends Controller
             $collection = Menu::with('menus')
                     ->find($menuitem->menu_id)
                     ->menus
-                    ->moveAndReorder($from, $to)
+                    ->moveAndReorder($from, $to, $menuitem)
                     ->map(fn($menu) => $menu->save())
             ;
             //dd($collection);
         }
+
+        $validatedAttributes['icon'] = request('icon');
+        unset($validatedAttributes['order']);
+        $menuitem->refresh();
+        $menuitem->fill($validatedAttributes);
+        $menuitem->save();
 
         return redirect(route("atrochar.menus.show", $menuitem->menu_id));
     }

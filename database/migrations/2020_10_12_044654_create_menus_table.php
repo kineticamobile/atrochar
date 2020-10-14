@@ -18,6 +18,7 @@ class CreateMenusTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('href'); // http(s) or route name
+            $table->string('icon')->nullable(); // eg: laptop => <i class="fa fa-laptop"></i>
             $table->boolean('newwindow')->default(false); // open on new window
             $table->boolean('iframe')->default(false); // open inside iframe
             $table->foreignId('menu_id')->nullable()->constrained();

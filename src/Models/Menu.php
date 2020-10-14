@@ -13,6 +13,7 @@ class Menu extends Model
         'name',
         'description',
         'href',
+        'icon',
         'menu_id',
         'newwindow',
         'iframe',

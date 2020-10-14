@@ -48,12 +48,30 @@ class MenuItemAddTest extends TestCase
             "description" => $this->faker->sentence,
             "href" => $this->faker->url,
             "newwindow" => $this->faker->boolean,
-            "item" => $this->faker->boolean
+            "item" => $this->faker->boolean,
         ]);
 
         $response->assertStatus(302)->assertRedirect('atrochar/menus/1');
 
         $this->assertEquals($this->parentMenu->refresh()->menus->count(), 1);
+    }
+
+    public function testSuccessOnCreateMenuAndIconColumnIsFilled()
+    {
+        $this->assertEquals($this->parentMenu->menus->count(), 0);
+
+        $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
+            "name" => $this->faker->name,
+            "description" => $this->faker->sentence,
+            "href" => $this->faker->url,
+            "newwindow" => $this->faker->boolean,
+            "item" => $this->faker->boolean,
+            "icon" => "laptop"
+        ]);
+
+        $response->assertStatus(302)->assertRedirect('atrochar/menus/1');
+
+        $this->assertEquals($this->parentMenu->refresh()->menus->first()->icon, "laptop");
     }
 
     public function testErrorOnCreateIfNoParent()
