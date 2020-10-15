@@ -15,7 +15,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return Menu::where('menu_id', null)->get();
+        return view("atrochar::menus.index", [
+            "menus" => Menu::where('menu_id', null)->get()
+        ]);
     }
 
     /**
@@ -25,7 +27,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        //
+        return view("atrochar::menus.create");
     }
 
     /**
@@ -39,12 +41,15 @@ class MenuController extends Controller
         $validatedAttributes = request()->validate([
             "name" => "required",
             "description" => "required",
-            "href" => "required",
-            "newwindow" => "required",
-            "iframe" => "required",
+            //"href" => "required",
+            //"newwindow" => "required",
+            //"iframe" => "required",
         ]);
 
         $validatedAttributes["menu_id"] = null;
+        $validatedAttributes["href"] = "";
+        $validatedAttributes["newwindow"] = false;
+        $validatedAttributes["iframe"] = false;
 
         Menu::create($validatedAttributes);
 
@@ -59,7 +64,10 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        return $menu->load('menus');
+        return view("atrochar::menus.show", [
+            "menu" => $menu,
+            "menus" => $menu->menus
+        ]);
     }
 
     /**

@@ -19,7 +19,7 @@ class AtrocharServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'kineticamobile');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'kineticamobile');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'atrochar');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->registerBladeDirectives();
@@ -29,6 +29,9 @@ class AtrocharServiceProvider extends ServiceProvider
             $this->bootForConsole();
         }
 
+        //Blade::component('atrochar', 'components/form-section');
+        Blade::component('atrochar::components.form-section', 'atrochar-form-section');
+        Blade::component('atrochar::components.index-section', 'atrochar-index-section');
         Collection::macro('reorder', function () {
             $orderNumber = 1;
             foreach($this->items as $item)
