@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Kineticamobile\Atrochar\Atrochar;
 use Kineticamobile\Atrochar\Models\Menu;
 
 class AtrocharServiceProvider extends ServiceProvider
@@ -24,14 +25,19 @@ class AtrocharServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->registerBladeDirectives();
 
+        $this->app->bind("atrochar", function(){
+            return new Atrochar;
+        });
+
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
-        }
+        };
 
         //Blade::component('atrochar', 'components/form-section');
         Blade::component('atrochar::components.form-section', 'atrochar-form-section');
         Blade::component('atrochar::components.index-section', 'atrochar-index-section');
+
         Collection::macro('reorder', function () {
             $orderNumber = 1;
             foreach($this->items as $item)
@@ -114,50 +120,8 @@ class AtrocharServiceProvider extends ServiceProvider
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('atrochar', function ($menuName) {
-            $menuName = trim($menuName, "'\"");
-            $menuToShow = Menu::whole($menuName);
-            $namedRoutes = collect(Route::getRoutes())->map(function($route) {
-                return $route->getName();
-            })->filter();
-
-            $lis = [];
-
-            foreach($menuToShow->menus as $menu){
-                $href = $namedRoutes->contains($menu->href) ? route($menu->href):$menu->href;
-                $lis[]= "<li>"
-                    . "<a href='$href'>"
-                        . $menu->name
-                    . "</a>"
-                . "</li>";
-            }
-
-            return "<ul>" . implode($lis) . "</ul>";
-
-            /*
-            Blade::compileString(
-                  '@can(\'manage users\') '
-                    . '<div class="block px-4 py-2 text-xs text-gray-400">Lumki</div>'
-
-                    . '<a href="{{ route(\'lumki.index\') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">'
-                        . '{{ __(\'Users\') }}'
-                    . '</a>'
-                    . '<a href="{{ route(\'lumki.roles.index\') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">'
-                        . '{{ __(\'Roles\') }}'
-                    . '</a>'
-                    . '<a href="{{ route(\'lumki.permissions.index\') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">'
-                        . '{{ __(\'Permissions\') }}'
-                    . '</a>'
-                . ' @endcan '
-                . '@impersonating'
-                    . '<div class="border-t border-gray-100"></div>'
-                    . '<a href="{{ route(\'impersonate.leave\') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">'
-                        . '{{ __(\'Leave impersonation\') }}'
-                    . '</a>'
-                . '@endImpersonating'
-
-            );
-            */
+        Blade::directive('menu', function ($slot) {
+            return "<?php echo Atrochar::generateMenu($slot) ?>";
         });
     }
 }

@@ -7,10 +7,8 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @include('atrochar::menuitems.menu-form', [
-                "action" => route('atrochar.menuitems.store', ['parent' => $parent->id]),
-                "method" => "POST"
-            ])
+            <iframe width="100%" height="600px" src="{{ $menu->href }}" title="{{ $menu->name }}">
+            </iframe>
         </div>
     </div>
 </x-app-layout>

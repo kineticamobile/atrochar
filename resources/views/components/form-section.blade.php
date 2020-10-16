@@ -3,8 +3,11 @@
     'action'
 ])
 
-<form method="{{$method }}" action="{{ $action }}">
+<form method="POST" action="{{ $action }}">
     @csrf
+    @if(strtolower($method) == "put")
+        @method('PUT')
+    @endif
 <div {{ $attributes->merge(['class' => 'md:grid md:grid-cols-3 md:gap-6']) }}>
     <x-jet-section-title>
         <x-slot name="title">{{ $title }}</x-slot>

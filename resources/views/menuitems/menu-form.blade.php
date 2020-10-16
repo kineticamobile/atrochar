@@ -1,44 +1,70 @@
-<x-atrochar-form-section method="POST" action="{{route('atrochar.menuitems.store', ['parent' => $menu->id])}}">
+<x-atrochar-form-section method="{{$method}}" action="{{ $action }}">
     <x-slot name="title">
-        {{ __('Menu') }}
+        {{ $parent->name }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Create Menu Where you can add items and render menu in your views.') }}
+        {{ __('Links inside your Menu') }}
     </x-slot>
 
         <x-slot name="form">
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" type="text" class="mt-1 block w-full" name="name" />
+                <x-jet-input id="name" name="name" type="text" class="mt-1 block w-full"
+                    value="{{old('name', isset($menu) ? $menu->name : '' )}}"
+                />
                 <x-jet-input-error for="name" class="mt-2" />
             </div>
 
             <!-- Description -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="description" value="{{ __('Description') }}" />
-                <x-jet-input id="description" type="text" class="mt-1 block w-full" name="description" />
+                <x-jet-input id="description" name="description" type="text" class="mt-1 block w-full"
+                    value="{{old('description', isset($menu) ? $menu->description : '' )}}"   />
                 <x-jet-input-error for="description" class="mt-2" />
             </div>
 
             <!-- href -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="href" value="{{ __('Link') }}" />
-                <x-jet-input id="href" type="text" class="mt-1 block w-full" name="href" />
+                <x-jet-input id="href" type="text" class="mt-1 block w-full" name="href"
+                    value="{{old('href', isset($menu) ? $menu->href : '' )}}"   />
                 <x-jet-input-error for="href" class="mt-2" />
             </div>
 
-            <!-- Name -->
+            @if(isset($routes))
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="href2" value="{{ __('Rutas con nombre registradas en la aplicación') }}" />
+                    <select name="href2" class='form-input rounded-md shadow-sm'>
+                        @foreach ($routes as $route)
+                            <option value="{{ $route }}">{{$route}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
+
+            @if(isset($menu))
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="order" value="{{ __('Order') }}" />
+                    <x-jet-input id="order" type="text" class="mt-1 block w-full" name="order"
+                        value="{{old('order', isset($menu) ? $menu->order : '' )}}"   />
+                    <x-jet-input-error for="href" class="mt-2" />
+                </div>
+            @endif
+
+            <!-- Checkboxes -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="permissions" value="{{ __('Options') }}" />
 
                 <label class="flex items-center">
-                    <input type="checkbox" class="form-checkbox" name="newwindow">
+                    <input type="checkbox" class="form-checkbox" name="newwindow"
+                        @if ( old('newwindow', isset($menu) ? $menu->newwindow : false) ) checked @endif>
                     <span class="ml-2 text-sm text-gray-600">Open in new window</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="checkbox" class="form-checkbox" name="iframe">
+                    <input type="checkbox" class="form-checkbox" name="iframe"
+                        @if ( old('iframe', isset($menu) ? $menu->iframe : false) ) checked @endif>
                     <span class="ml-2 text-sm text-gray-600">Open in iframe</span>
                 </label>
 

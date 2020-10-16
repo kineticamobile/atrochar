@@ -7,7 +7,7 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @include('atrochar::menus.menu-show', ["title"=> $menu->name, "items" => $menus])
+            @include('atrochar::menus.menu-show', ["title"=> $menu->breadcrumbs(), "items" => $menus])
         </div>
     </div>
 </x-app-layout>

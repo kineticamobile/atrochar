@@ -5,7 +5,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('List of Menu you can display on your view with @menu("menu-name").') }}
+        {{ __('List of Menu you can display on your view with @@menu($menu->name).') }}
     </x-slot>
 
         <x-slot name="content">
@@ -17,17 +17,11 @@
                     </div>
 
                     <div class="flex items-center">
+                        <a href="{{ route("atrochar.menus.ul", $item) }}">Ver</a>
 
-
-                        @if (Laravel\Jetstream\Jetstream::hasPermissions())
-                            <button class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none" >
-                                {{ __('Permissions') }}
-                            </button>
-                        @endif
-
-                        <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" >
+                        <!--<button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" >
                             {{ __('Delete') }}
-                        </button>
+                        </button>-->
                     </div>
                 </div>
                 @endforeach

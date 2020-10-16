@@ -4,6 +4,7 @@ namespace Kineticamobile\Atrochar\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Kineticamobile\Atrochar\Atrochar;
 use Kineticamobile\Atrochar\Models\Menu;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -29,7 +30,8 @@ class MenuItemController extends Controller
         request()->validate(["parent" => "required"]);
 
         return view("atrochar::menuitems.create", [
-            "menu" => Menu::find(request('parent'))
+            "parent" => Menu::find(request('parent')),
+            "routes" => Atrochar::getRouteNames()
         ]);
     }
 
@@ -68,10 +70,12 @@ class MenuItemController extends Controller
      */
     public function show(Menu $menu)
     {
-        return view("atrochar::menus.index", [
+        /*
+        return view("atrochar::menuitems.index", [
             "menu" => $menu,
             "menus" => $menu->menus
         ]);
+        */
     }
 
     /**
@@ -80,9 +84,13 @@ class MenuItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Menu $menu)
+    public function edit(Menu $menuitem)
     {
-        //
+        return view("atrochar::menuitems.edit", [
+            "parent" => $menuitem->menu,
+            "menu" => $menuitem,
+            "routes" => Atrochar::getRouteNames()
+        ]);
     }
 
     /**
@@ -99,11 +107,13 @@ class MenuItemController extends Controller
             "name" => "required",
             "description" => "required",
             "href" => "required",
-            "newwindow" => "required",
+            //"newwindow" => "required",
             "order" => "required"
         ]);
 
         $validatedAttributes['icon'] = request('icon');
+        $validatedAttributes['newwindow'] = request('newwindow') ? true:false;
+        $validatedAttributes['iframe'] = request('iframe') ? true:false;
 
         $menuitem->order = $validatedAttributes["order"];
 

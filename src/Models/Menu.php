@@ -39,6 +39,18 @@ class Menu extends Model
         return $this->belongsTo(self::class);
     }
 
+    public function breadcrumbs()
+    {
+        $breadcrumbs = $this->name;
+        $menu = $this->menu;
+        while($menu != null)
+        {
+            $breadcrumbs = $menu->name . " >> " .$breadcrumbs;
+            $menu = $menu->menu;
+        }
+        return $breadcrumbs;
+    }
+
     protected static function newFactory()
     {
         return \Kineticamobile\Atrochar\Factories\MenuFactory::new();

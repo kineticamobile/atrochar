@@ -21,7 +21,7 @@ class CreateMenusTable extends Migration
             $table->string('icon')->nullable(); // eg: laptop => <i class="fa fa-laptop"></i>
             $table->boolean('newwindow')->default(false); // open on new window
             $table->boolean('iframe')->default(false); // open inside iframe
-            $table->foreignId('menu_id')->nullable()->constrained();
+            $table->foreignId('menu_id')->nullable()->constrained()->onDelete('cascade');
             $table->integer('order')->default(0);
             $table->timestamps();
         });
