@@ -111,17 +111,6 @@ class MenuItemAddTest extends TestCase
         ;
     }
 
-    public function testErrorOnCreateIfNoDescription()
-    {
-        $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
-            "name" => $this->faker->name
-        ]);
-
-        $response->assertStatus(302)
-                 ->assertSessionHasErrors("description","The description field is required.")
-        ;
-    }
-
     public function testErrorOnCreateIfNoHref()
     {
         $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
@@ -134,11 +123,20 @@ class MenuItemAddTest extends TestCase
         ;
     }
 
+    public function testSuccessOnCreateIfNoDescription()
+    {
+        $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
+            "name" => $this->faker->name,
+            "href" => $this->faker->url
+        ]);
+
+        $response->assertStatus(302)->assertRedirect('atrochar/menus/1');
+    }
+
     public function testSuccessOnCreateIfNoNewwindow()
     {
         $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
             "name" => $this->faker->name,
-            "description" => $this->faker->sentence,
             "href" => $this->faker->url
         ]);
 

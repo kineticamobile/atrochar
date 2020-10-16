@@ -45,7 +45,6 @@ class MenuItemController extends Controller
     {
         $validatedAttributes = request()->validate([
             "name" => "required",
-            "description" => "required",
             "href" => "required",
             "parent" => "required"
         ]);
