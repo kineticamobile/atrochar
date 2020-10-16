@@ -83,6 +83,18 @@ class MenuItemUpdateTest extends TestCase
         $this->assertEquals($this->itemMenu->icon, "laptop");
     }
 
+    public function testChangeParentIdHasNoEffectSoWeCantMoveLinkToAnotherMenu()
+    {
+        $updateData = $this->updateMenu();
+        $updateData['parent'] = 4;
+        $response = $this->put('atrochar/menuitems/' . $this->itemMenu->id, $updateData);
+
+        $response->assertStatus(302);
+
+        $this->itemMenu->refresh();
+        $this->assertEquals(1, $this->itemMenu->menu->id);
+    }
+
     protected function updateMenu()
     {
         return [

@@ -39,7 +39,7 @@ class MenuItemAddTest extends TestCase
                 ->assertSessionHasErrors("parent","The parent field is required.");
     }
 
-    public function testSuccessOnCreateMenuInDatabaseAndRedirectMenuIndex()
+    public function testSuccessOnCreateMenuWithRandomDataInDatabaseAndRedirectMenuIndex()
     {
         $this->assertEquals($this->parentMenu->menus->count(), 0);
 
@@ -56,22 +56,41 @@ class MenuItemAddTest extends TestCase
         $this->assertEquals($this->parentMenu->refresh()->menus->count(), 1);
     }
 
-    public function testSuccessOnCreateMenuAndIconColumnIsFilled()
+    public function testSuccessOnCreateMenuWithCustomDataInDatabaseAndRedirectMenuIndex()
     {
         $this->assertEquals($this->parentMenu->menus->count(), 0);
 
-        $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
-            "name" => $this->faker->name,
-            "description" => $this->faker->sentence,
-            "href" => $this->faker->url,
-            "newwindow" => $this->faker->boolean,
-            "item" => $this->faker->boolean,
-            "icon" => "laptop"
-        ]);
+        $createData = [
+            "name" => "Test Name",
+            "description" => "Test Description",
+            "href" => "Test href",
+            "icon" => "Test Icon",
+            "newwindow" => "on", // checkbox value
+            "iframe" => "on",
+            "menu_id" => $this->parentMenu->id,
+            "order" => 42,
+            "permission" => "enter mordor"
+        ];
+
+        $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, $createData);
 
         $response->assertStatus(302)->assertRedirect('atrochar/menus/1');
 
-        $this->assertEquals($this->parentMenu->refresh()->menus->first()->icon, "laptop");
+        $this->assertEquals($this->parentMenu->refresh()->menus->count(), 1);
+
+        $menu = $this->parentMenu->menus->first();
+        $this->assertEquals(12, count($menu->getAttributes()));
+        // dd($menu);
+        $this->assertIsInt($menu->id);
+        $this->assertEquals($createData["name"], $menu->name);
+        $this->assertEquals($createData["description"], $menu->description);
+        $this->assertEquals($createData["href"], $menu->href);
+        $this->assertEquals($createData["icon"], $menu->icon);
+        $this->assertEquals(1, $menu->newwindow);
+        $this->assertEquals(1, $menu->iframe);
+        $this->assertEquals($this->parentMenu->id, $menu->menu->id);
+        $this->assertEquals(1, $menu->order);
+        $this->assertEquals($createData["permission"], $menu->permission);
     }
 
     public function testErrorOnCreateIfNoParent()
@@ -79,7 +98,7 @@ class MenuItemAddTest extends TestCase
         $response = $this->post('atrochar/menuitems');
 
         $response->assertStatus(302)
-                 ->assertSessionHasErrors("name","The name field is required.")
+                 ->assertSessionHasErrors("parent","The parent field is required.")
         ;
     }
 
@@ -115,7 +134,7 @@ class MenuItemAddTest extends TestCase
         ;
     }
 
-    public function testErrorOnCreateIfNoNewwindow()
+    public function testSuccessOnCreateIfNoNewwindow()
     {
         $response = $this->post('atrochar/menuitems?parent=' . $this->parentMenu->id, [
             "name" => $this->faker->name,
@@ -123,9 +142,7 @@ class MenuItemAddTest extends TestCase
             "href" => $this->faker->url
         ]);
 
-        $response->assertStatus(302)
-                 ->assertSessionHasErrors("newwindow","The description field is required.")
-        ;
+        $response->assertStatus(302)->assertRedirect('atrochar/menus/1');
     }
 
     public function testNewMenuItemHasOrder_1()

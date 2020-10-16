@@ -47,15 +47,17 @@ class MenuItemController extends Controller
             "name" => "required",
             "description" => "required",
             "href" => "required",
-            //"newwindow" => "required",
             "parent" => "required"
         ]);
 
-        $validatedAttributes["menu_id"] = request("parent");
-        $validatedAttributes["order"] = 1 + Menu::where('menu_id', request("parent"))->count();
+        $validatedAttributes['description'] = request('description', "");
         $validatedAttributes['icon'] = request('icon' ,'');
-        $validatedAttributes['newwindow'] = request('newwindow', 0);
-        $validatedAttributes['iframe'] = request('iframe', 0);
+        $validatedAttributes['newwindow'] = request('newwindow') ? true:false;
+        $validatedAttributes['iframe'] = request('iframe') ? true:false;
+        $validatedAttributes['permission'] = request('permission', '');
+
+        $validatedAttributes['menu_id'] = request("parent");
+        $validatedAttributes['order'] = 1 + Menu::where('menu_id', request("parent"))->count();
 
         Menu::create($validatedAttributes);
 
@@ -105,32 +107,39 @@ class MenuItemController extends Controller
 
         $validatedAttributes = request()->validate([
             "name" => "required",
-            "description" => "required",
             "href" => "required",
-            //"newwindow" => "required",
             "order" => "required"
         ]);
 
-        $validatedAttributes['icon'] = request('icon');
+        $validatedAttributes['description'] = request('description', "");
+        $validatedAttributes['icon'] = request('icon' ,'');
         $validatedAttributes['newwindow'] = request('newwindow') ? true:false;
         $validatedAttributes['iframe'] = request('iframe') ? true:false;
+        $validatedAttributes['permission'] = request('permission', '');
 
         $menuitem->order = $validatedAttributes["order"];
 
+        /*
+        *  If order changed, reorder all the links in the parent menu.
+        *    - We're going to use array index to modify so first item index is 0
+        *    - In database we use first item index is 1 for users
+        *    - So we need to substract 1 to the order of the database to move and reorder
+        *    - Check if $to is less than zero to avoid array_splice problems on replacement
+        */
         if( $menuitem->isDirty('order') ){
             $from = $menuitem->getOriginal('order') - 1;
             $to = $menuitem->order - 1;
             $to = $to < 0 ? 0 : $to;
-            $collection = Menu::with('menus')
+            Menu::with('menus')
                     ->find($menuitem->menu_id)
                     ->menus
                     ->moveAndReorder($from, $to, $menuitem)
                     ->map(fn($menu) => $menu->save())
             ;
-            //dd($collection);
         }
 
         $validatedAttributes['icon'] = request('icon');
+        // We've changed all the order so we don't want to modify order field
         unset($validatedAttributes['order']);
         $menuitem->refresh();
         $menuitem->fill($validatedAttributes);

@@ -61,7 +61,7 @@ class MenuCreateTest extends TestCase
             "iframe" => "on",
             "menu_id" => 42,
             "order" => 42,
-            "permission" => "view ufo"
+            "permission" => "enter mordor"
         ];
 
         $response = $this->post('atrochar/menus/', $createData);

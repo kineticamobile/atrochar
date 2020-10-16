@@ -17,6 +17,7 @@ class Menu extends Model
         'menu_id',
         'newwindow',
         'iframe',
+        'permission',
         'order'
     ];
 
