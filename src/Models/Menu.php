@@ -4,6 +4,7 @@ namespace Kineticamobile\Atrochar\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kineticamobile\Atrochar\Facades\Atrochar;
 
 class Menu extends Model
 {
@@ -50,6 +51,13 @@ class Menu extends Model
             $menu = $menu->menu;
         }
         return $breadcrumbs;
+    }
+
+    public function url()
+    {
+        return Atrochar::getRouteNames()->contains($this->href) ?
+            route($this->href) :
+            $this->href;
     }
 
     protected static function newFactory()

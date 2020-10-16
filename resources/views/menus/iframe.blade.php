@@ -7,7 +7,7 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <iframe width="100%" height="600px" src="{{ $menu->href }}" title="{{ $menu->name }}">
+            <iframe width="100%" height="600px" src="{{ $menu->url() }}" title="{{ $menu->name }}">
             </iframe>
         </div>
     </div>

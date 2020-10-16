@@ -33,6 +33,14 @@
                 <x-jet-input-error for="href" class="mt-2" />
             </div>
 
+            <!-- icon -->
+            <div class="col-span-6 sm:col-span-4">
+                <x-jet-label for="icon" value="{{ __('Icon') }}" />
+                <x-jet-input id="icon" type="text" class="mt-1 block w-full" name="icon"
+                    value="{{old('icon', isset($menu) ? $menu->icon : '' )}}"   />
+                <x-jet-input-error for="href" class="mt-2" />
+            </div>
+
             @if(isset($routes))
                 <div class="col-span-6 sm:col-span-4">
                     <x-jet-label for="href2" value="{{ __('Rutas con nombre registradas en la aplicación') }}" />
@@ -44,6 +52,15 @@
                 </div>
             @endif
 
+            <!-- permission -->
+            <div class="col-span-6 sm:col-span-4">
+                <x-jet-label for="permission" value="{{ __('Permission') }}" />
+                <x-jet-input id="permission" type="text" class="mt-1 block w-full" name="permission"
+                    value="{{old('permission', isset($menu) ? $menu->permission : '' )}}"   />
+                <x-jet-input-error for="href" class="mt-2" />
+            </div>
+
+            <!-- href -->
             @if(isset($menu))
                 <div class="col-span-6 sm:col-span-4">
                     <x-jet-label for="order" value="{{ __('Order') }}" />

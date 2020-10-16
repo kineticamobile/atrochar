@@ -111,7 +111,7 @@ class MenuItemController extends Controller
         ]);
 
         $validatedAttributes['description'] = request('description', "");
-        $validatedAttributes['icon'] = request('icon' ,'');
+        $validatedAttributes['icon'] = request('icon' , '');
         $validatedAttributes['newwindow'] = request('newwindow') ? true:false;
         $validatedAttributes['iframe'] = request('iframe') ? true:false;
         $validatedAttributes['permission'] = request('permission', '');
@@ -137,7 +137,6 @@ class MenuItemController extends Controller
             ;
         }
 
-        $validatedAttributes['icon'] = request('icon');
         // We've changed all the order so we don't want to modify order field
         unset($validatedAttributes['order']);
         $menuitem->refresh();
