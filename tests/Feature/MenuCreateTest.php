@@ -123,7 +123,7 @@ class MenuCreateTest extends TestCase
         $response->assertStatus(302)->assertRedirect('atrochar/menus');
     }
 
-    public function xtestSuccessOnCreateIfNoIframe()
+    public function testSuccessOnCreateIfNoIframe()
     {
         $response = $this->post('atrochar/menus/', [
             "name" => $this->faker->name,

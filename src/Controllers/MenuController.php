@@ -38,19 +38,9 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedAttributes = request()->validate([
-            "name" => "required",
-            //"description" => "required",
-            //"href" => "required",
-            //"newwindow" => "required",
-            //"iframe" => "required",
-        ]);
+        $validatedAttributes = request()->validate(["name" => "required"]);
 
         $validatedAttributes["description"] = request('description') ?? "";
-        //$validatedAttributes["menu_id"] = null;
-        //$validatedAttributes["href"] = "";
-        //$validatedAttributes["newwindow"] = false;
-        //$validatedAttributes["iframe"] = false;
 
         Menu::create($validatedAttributes);
 
