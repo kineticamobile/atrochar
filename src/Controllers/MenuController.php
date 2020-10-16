@@ -40,16 +40,17 @@ class MenuController extends Controller
     {
         $validatedAttributes = request()->validate([
             "name" => "required",
-            "description" => "required",
+            //"description" => "required",
             //"href" => "required",
             //"newwindow" => "required",
             //"iframe" => "required",
         ]);
 
-        $validatedAttributes["menu_id"] = null;
-        $validatedAttributes["href"] = "";
-        $validatedAttributes["newwindow"] = false;
-        $validatedAttributes["iframe"] = false;
+        $validatedAttributes["description"] = request('description') ?? "";
+        //$validatedAttributes["menu_id"] = null;
+        //$validatedAttributes["href"] = "";
+        //$validatedAttributes["newwindow"] = false;
+        //$validatedAttributes["iframe"] = false;
 
         Menu::create($validatedAttributes);
 
