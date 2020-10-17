@@ -21,6 +21,11 @@ class Atrochar
         })->filter();
     }
 
+    public static function checkConfig()
+    {
+        dd(config('atrochar'), config('atrochar.theme.custom'), config('atrochar.theme/jetstream'));
+    }
+
     public static function generateMenu($menu, $options = [])
     {
         $menuToShow =
@@ -34,22 +39,18 @@ class Atrochar
                     null
         )));
 
-        if($menuToShow == null){
-            return "Menu Not Found!";
+        if($menuToShow == null){ return "Menu Not Found!"; }
+
+        if( is_string($options) ){
+            $options = config("atrochar.themes.$options") ?? [];
         }
-        $namedRoutes = self::getRouteNames();
-        //dd($menuName, $menuToShow);
+
+        $definitiveOptions = array_merge(config("atrochar.defaultTheme"),$options);
+
+        extract($definitiveOptions);
+
         $lis = [];
-        $class = isset($options['class']) ? " class='". $options['class'] ."' ": "";
-        $linkTag = isset($options['linkTag']) ?  $options['linkTag'] : "a";
-
-        $listStartTag = isset($options['listStartTag']) ?  $options['listStartTag'] : "<ul>";
-        $listEndTag = isset($options['listEndTag']) ?  $options['listEndTag'] : "</ul>";
-
-        $itemStartTag = isset($options['itemStartTag']) ?  $options['itemStartTag'] : "<li>";
-        $itemEndTag = isset($options['itemEndTag']) ?  $options['itemEndTag'] : "</li>";
-
-
+        $namedRoutes = self::getRouteNames();
         foreach($menuToShow->menus as $menu){
             $href = $menu->iframe ?
                         route("atrochar.menus.iframe", $menu) :(
@@ -57,12 +58,12 @@ class Atrochar
                         route($menu->href) :(
 
                         $menu->href ));
-            //dd(request()->url(), $href);
-            $active = request()->url() == $href ? "true" : "false";
+
+            $selectedClass = request()->url() === $href ? $activeClass : $class;
             $target = $menu->newwindow ? " target='_blank' ": "";
             $lis[]=
             $itemStartTag
-                . "<$linkTag href='$href' $target $class :active='$active'>"
+                . "<$linkTag href='$href' $target class='$selectedClass'>"
                     . $menu->name
                 . "</$linkTag>"
             . $itemEndTag;

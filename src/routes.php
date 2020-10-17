@@ -25,7 +25,7 @@ Route::namespace("Kineticamobile\Atrochar\Controllers")
         })->name("menus.iframe");
 
         Route::get('test', function() {
-            dd(Atrochar::generateMenu("Prueba"));
-            //dd(Atrochar::getRouteNames());
+            //dd(Atrochar::generateMenu("Prueba"));
+            dd(Atrochar::checkConfig());
         });
 });
