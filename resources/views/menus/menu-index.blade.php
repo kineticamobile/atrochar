@@ -13,12 +13,15 @@
                 @foreach ($items as $item)
                 <div class="flex items-center justify-between">
                     <div>
-                        <a href="{{ route("atrochar.menus.show", $item)}}"> {{ $item->name }}</a>
+                        {{ $item->name }}
                     </div>
 
                     <div class="flex items-center">
                         <a href="{{ route("atrochar.menus.ul", $item) }}">Ver</a>
 
+                        <a href="{{ route("atrochar.menus.show", $item)}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none" >
+                            {{ __('Edit') }}
+                        </a>
                         <!--<button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" >
                             {{ __('Delete') }}
                         </button>-->

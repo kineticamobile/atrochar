@@ -7,17 +7,17 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            Nombre - @@menu($menu->name)<hr>
-            @menu($menu->name, [
-                "class" => "name"
-            ])
-            <br/><br/>
-            Objeto - @@menu($menu)<hr>
+            Objeto - Comprueba si es clase Menu - @@menu($menu)<hr>
             @menu($menu, [
                 "class" => "class"
             ])
             <br/><br/>
-            Id - @@menu($menu->id)<hr>
+            Cadena - Busca por nombre - @@menu($menu->name) o @@menu('Dashboard')<hr>
+            @menu($menu->name, [
+                "class" => "name"
+            ])
+            <br/><br/>
+            Id - Busca por Id- @@menu($menu->id) o @@menu(1)<hr>
             @menu($menu->id, [
                 "class" => "id"
             ])

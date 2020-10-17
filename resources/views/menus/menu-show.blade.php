@@ -13,12 +13,13 @@
                 @foreach ($items as $item)
                 <div class="flex items-center justify-between">
                     <div>
-
+                        <!--
                         <select>
                             @for ($i = 1; $i <= $items->count(); $i++)
                                 <option @if($item->order == $i) selected @endif>{{ $i }}</option>
                             @endfor
                         </select>
+                        -->
                         {{ $item->name }}
                     </div>
 
@@ -26,10 +27,11 @@
                         <a href="{{ route("atrochar.menuitems.edit", $item)}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none" >
                             {{ __('Edit') }}
                         </a>
-
+                        <!--
                         <a href="{{ route("atrochar.menus.show", $item)}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none" >
                             {{ __('Submenus') }}
                         </a>
+                        -->
                         <!--
                         <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" >
                             {{ __('Delete') }}
