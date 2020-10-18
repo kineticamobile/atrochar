@@ -7,25 +7,23 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            Objeto - Comprueba si es clase Menu - @@menu($menu)<hr>
-            @menu($menu, [
-                "class" => "class"
-            ])
+            Object - Comprueba si es clase Menu - @@menu($menu)<hr>
+            @menu($menu)
             <br/><br/>
-            Cadena - Busca por nombre - @@menu($menu->name) o @@menu('Dashboard')<hr>
-            @menu($menu->name, [
-                "class" => "name"
-            ])
+            Cadena - Busca por nombre - @@menu($menu->name) o @@menu('{{$menu->name}}')<hr>
+            @menu($menu->name)
             <br/><br/>
-            Id - Busca por Id- @@menu($menu->id) o @@menu(1)<hr>
-            @menu($menu->id, [
-                "class" => "id"
-            ])
+            Id - Busca por Id- @@menu($menu->id) o @@menu({{$menu->id}})<hr>
+            @menu($menu->id)
             <br/><br/>
             Invalid Parameter - @@menu($menu->description)<hr>
-            @menu($menu->description, [
-                "class" => "not found"
-            ])
+            @menu($menu->description)
+            <br/><br/>
+            Object - Using Theme- @@menu($menu, "jetstream")<hr>
+            @menu($menu, "jetstream")
+            <br/><br/>
+            Object - Using Options- @@menu($menu, ["class" => "bg-gray-500 font-mono"])<hr>
+            @menu($menu, ["class" => "bg-gray-500 font-mono"])
         </div>
     </div>
 </x-app-layout>
