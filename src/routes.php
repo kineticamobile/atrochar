@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Kineticamobile\Atrochar\Facades\Atrochar;
+use Kineticamobile\Atrochar\Middleware\ManageMenuMiddleware;
 use Kineticamobile\Atrochar\Models\Menu;
 
 Route::namespace("Kineticamobile\Atrochar\Controllers")
     ->prefix('atrochar') //  Url
     ->as('atrochar.') // Name of routes
-    ->middleware(['web','auth:sanctum'])
+    ->middleware(['web','auth:sanctum', ManageMenuMiddleware::class])
     ->group(function () {
 
         Route::resource('menus', 'MenuController');
