@@ -50,8 +50,13 @@ class Atrochar
         extract($definitiveOptions);
 
         $lis = [];
+        $user = request()->user();
         $namedRoutes = self::getRouteNames();
         foreach($menuToShow->menus as $menu){
+            if($menu->permission != "" && !$user->canViewMenuItem($menu->permission))
+            {
+                continue;
+            }
             $href = $menu->iframe ?
                         route("atrochar.menus.iframe", $menu) :(
                     $namedRoutes->contains($menu->href) ?
