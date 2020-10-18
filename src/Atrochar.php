@@ -66,9 +66,11 @@ class Atrochar
 
             $selectedClass = request()->url() === $href ? $activeClass : $class;
             $target = $menu->newwindow ? " target='_blank' ": "";
+            $icon = $menu->icon != "" ? "<i class='fas fa-{$menu->icon}'></i>" : "";
             $lis[]=
             $itemStartTag
                 . "<$linkTag href='$href' $target class='$selectedClass'>"
+                    . $icon
                     . $menu->name
                 . "</$linkTag>"
             . $itemEndTag;
