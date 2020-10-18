@@ -27,22 +27,19 @@
 
             <!-- href -->
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="href" value="{{ __('Link') }}" />
-                <x-jet-input id="href" type="text" class="mt-1 block w-full" name="href"
-                    value="{{old('href', isset($menu) ? $menu->href : '' )}}"   />
+                <x-jet-label for="href" value="{{ __('Link') }} - Url or Route Name"  />
+                <!--<x-jet-input id="href" type="text" class="mt-1 block w-full" name="href"
+                    value="{{old('href', isset($menu) ? $menu->href : '' )}}"   />-->
+                <input type="text" name="href" list="routes" value="{{old('href', isset($menu) ? $menu->href : '' )}}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                @if(isset($routes))
+                    <datalist id="routes">
+                        @foreach ($routes as $route)
+                            <option value="{{ $route }}">{{ route($route)}}</option>
+                        @endforeach
+                    </datalist>
+                @endif
                 <x-jet-input-error for="href" class="mt-2" />
             </div>
-
-            @if(isset($routes))
-                <div class="col-span-6 sm:col-span-4">
-                    <x-jet-label for="href2" value="{{ __('Rutas con nombre registradas en la aplicación') }}" />
-                    <select name="href2" class='form-input rounded-md shadow-sm'>
-                        @foreach ($routes as $route)
-                            <option value="{{ $route }}">{{$route}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            @endif
 
             <!-- icon -->
             <div class="col-span-6 sm:col-span-4">
