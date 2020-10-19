@@ -19,7 +19,7 @@ Route::namespace("Kineticamobile\Atrochar\Controllers")
             ]);
         })->name("menus.ul");
 
-        Route::get('menus/iframe/{menu}', function(Menu $menu){
+        Route::get('i/{menu}', function(Menu $menu){
             return view("atrochar::menus.iframe", [
                 "menu" => $menu
             ]);
