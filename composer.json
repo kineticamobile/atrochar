@@ -1,16 +1,27 @@
 {
     "name": "kineticamobile/atrochar",
-    "description": ":package_description",
-    "license": "license",
+    "description": "Menu Generator for Laravel Apps - Populate menus in your views using Database backed Menus with @menu Blade component",
+    "license": "MIT",
     "authors": [
         {
             "name": "Raul Tierno",
             "email": "raultm@gmail.com",
             "homepage": "https://github.com/raultm"
+        },
+        {
+            "name": "Daniel Macías",
+            "email": "danielmaciasramos@gmail.com",
+            "homepage": "https://github.com/dmaciasr"
+        },
+        {
+            "name": "Emilio Ortiz",
+            "email": "emilio.ortiz@kinetica.mobi",
+            "homepage": "https://github.com/branigan"
         }
+
     ],
     "homepage": "https://github.com/kineticamobile/atrochar",
-    "keywords": ["Laravel", "Atrochar"],
+    "keywords": ["Laravel", "Atrochar", "Menu", "Blade"],
     "require": {
         "illuminate/support": "~7|~8"
     },
