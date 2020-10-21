@@ -26,6 +26,11 @@ class Atrochar
         dd(config('atrochar'), config('atrochar.theme.custom'), config('atrochar.theme/jetstream'));
     }
 
+    public static function exists($menu)
+    {
+        return Menu::check($menu);
+    }
+
     public static function generateMenu($menu, $options = [])
     {
         $menuToShow =

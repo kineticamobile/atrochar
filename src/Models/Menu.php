@@ -64,4 +64,21 @@ class Menu extends Model
     {
         return \Kineticamobile\Atrochar\Factories\MenuFactory::new();
     }
+
+    public static function check($menu)
+    {
+        if($menu instanceof Menu) {
+            return true;
+        }
+
+        if(is_integer($menu) && Menu::find($menu) != null) {
+            return true;
+        }
+
+        if(is_string($menu) && Menu::whole($menu) != null) {
+            return true;
+        }
+
+        return false;
+    }
 }
