@@ -45,7 +45,7 @@ class MenuCheckTest extends TestCase
     {
         $menu = Menu::factory()->create();
 
-        $this->assertTrue(Menu::check($menu->name));
+        $this->assertFalse(Menu::check($menu->description));
     }
 
 
