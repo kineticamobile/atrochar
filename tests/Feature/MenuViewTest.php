@@ -79,4 +79,19 @@ class MenuViewTest extends TestCase
             ->assertSee("villafranca")
         ;
     }
+
+    public function testCanSeeViewSubmenuAction()
+    {
+        $menu = Menu::factory()->create(["name" => "tierra de barros"]);
+        Menu::factory()->create([
+            "name" => "almendralejo",
+            "menu_id" => $menu
+        ]);
+
+        $response = $this->actingAs($this->user)->get('atrochar/menus/' . $menu->id);
+
+        $response->assertStatus(200)
+            ->assertSee("Submenus")
+        ;
+    }
 }

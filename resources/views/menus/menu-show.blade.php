@@ -27,11 +27,9 @@
                         <a href="{{ route("atrochar.menuitems.edit", $item)}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none" >
                             {{ __('Edit') }}
                         </a>
-                        <!--
                         <a href="{{ route("atrochar.menus.show", $item)}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none" >
                             {{ __('Submenus') }}
                         </a>
-                        -->
                         <!--
                         <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" >
                             {{ __('Delete') }}
