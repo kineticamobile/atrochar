@@ -56,8 +56,43 @@ or add link wherever you want
     [...]
     @menu($menu)
 ```
+### Use views instead of programatic approach
+
+You can publish the views of the components
+
+``` bash
+$ php artisan vendor:publish --tag=atrochar.views 
+```
+You have two views in `resources/views/vendors/atrochar`, `default.blade.php` nad `jetstream.blade.php`
+
+To use these views see examples below
+
+- `@menuview($menu)` use `default`
+
+- `@menuview($menu, 'jetstream')` use `jetstream`
+
 
 ## Advanced Usage
+
+### Change Prefix of Package Routes
+
+Publish configuration 
+
+``` bash
+$ php artisan vendor:publish --tag=atrochar.config
+```
+
+Modify `conf/atrochar.php` field `prefix`. It allows empty string, if null `atrochar` would be used.
+
+### Change iframe routes
+
+Usually iframe links are in route `atrochar/i/24`
+
+You can change `i` for whatever you want in `conf/atrochar.php` field `iframe` after publish the configuration file
+
+``` bash
+$ php artisan vendor:publish --tag=atrochar.config
+```
 
 ### Restrict access to menu management
 
