@@ -207,6 +207,63 @@ class GenerateMenuTest extends TestCase
 
         $this->assertStringContainsString(config("atrochar.themes.jetstream.class"), $menuHtml);
     }
-    // $menuItem = Menu::factory()->count(3)->create(["menu_id" => $menu->id]);
+
+    public function testGenerateMenuWithSubmenuOneLevelDeep()
+    {
+        $menu = Menu::create(["name" => $this->faker->word]);
+        $menuItem = Menu::create([
+            "name" => $this->faker->word,
+            "href" => $this->faker->url,
+            "menu_id" => $menu->id
+        ]);
+
+        $submenuItem = Menu::create([
+            "name" => $this->faker->word,
+            "href" => $this->faker->url,
+            "menu_id" => $menuItem->id
+        ]);
+
+        $menuHtml = Atrochar::generateMenu($menu->name);
+
+        $this->assertEquals(
+              "<ul>"
+                . "<li>"
+                    . "<a href='{$menuItem->href}'  class=''>{$menuItem->name}</a>"
+                    . "<div>"
+                        . "<a href='{$submenuItem->href}'  class=''>{$submenuItem->name}</a>"
+                    . "</div>"
+                . "</li>"
+            . "</ul>"
+            , $menuHtml);
+    }
+
+    public function testGenerateMenuWithMultipleSubmenusOneLevelDeep()
+    {
+        $menu = Menu::create(["name" => $this->faker->word]);
+        $menuItem1 = Menu::create(["name" => $this->faker->word, "href" => $this->faker->url, "menu_id" => $menu->id]);
+        $menuItem2 = Menu::create(["name" => $this->faker->word, "href" => $this->faker->url, "menu_id" => $menu->id]);
+
+        $submenuItem1 = Menu::create(["name" => $this->faker->word,"href" => $this->faker->url,"menu_id" => $menuItem1->id]);
+        $submenuItem2 = Menu::create(["name" => $this->faker->word,"href" => $this->faker->url,"menu_id" => $menuItem1->id]);
+        $submenuItem3 = Menu::create(["name" => $this->faker->word,"href" => $this->faker->url,"menu_id" => $menuItem1->id]);
+
+        $menuHtml = Atrochar::generateMenu($menu->name);
+
+        $this->assertEquals(
+              "<ul>"
+                . "<li>"
+                    . "<a href='{$menuItem1->href}'  class=''>{$menuItem1->name}</a>"
+                    . "<div>"
+                        . "<a href='{$submenuItem1->href}'  class=''>{$submenuItem1->name}</a>"
+                        . "<a href='{$submenuItem2->href}'  class=''>{$submenuItem2->name}</a>"
+                        . "<a href='{$submenuItem3->href}'  class=''>{$submenuItem3->name}</a>"
+                    . "</div>"
+                . "</li>"
+                . "<li>"
+                    . "<a href='{$menuItem2->href}'  class=''>{$menuItem2->name}</a>"
+                . "</li>"
+            . "</ul>"
+            , $menuHtml);
+    }
 
 }

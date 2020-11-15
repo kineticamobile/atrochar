@@ -69,16 +69,21 @@ class Atrochar
 
                         $menu->href ));
 
+            $submenus = $menu->menus->count() > 0 ? self::generateMenu($menu, $definitiveOptions["submenusOptions"]):'';
+
+
             $selectedClass = request()->url() === $href ? $activeClass : $class;
             $target = $menu->newwindow ? " target='_blank' ": "";
             $icon = $menu->icon != "" ? "<i class='fas fa-{$menu->icon}'></i>" : "";
             $lis[]=
-            $itemStartTag
-                . "<$linkTag href='$href' $target class='$selectedClass'>"
-                    . $icon
-                    . $menu->name
-                . "</$linkTag>"
-            . $itemEndTag;
+                $itemStartTag
+                    . "<$linkTag href='$href' $target class='$selectedClass'>"
+                        . $icon
+                        . $menu->name
+                    . "</$linkTag>"
+                    . $submenus
+                . $itemEndTag
+            ;
         }
 
         return $listStartTag . implode($lis) . $listEndTag;

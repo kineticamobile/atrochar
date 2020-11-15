@@ -9,6 +9,15 @@ return [
         "listEndTag" => "</ul>",
         "itemStartTag" => "<li>",
         "itemEndTag" => "</li>",
+        "submenusOptions" => [
+            "linkTag" => "a",
+            "class" => "",
+            "activeClass" => "",
+            "listStartTag" => "<div>",
+            "listEndTag" => "</div>",
+            "itemStartTag" => "",
+            "itemEndTag" => "",
+        ]
     ],
     "themes" => [
         "jetstream" => [
