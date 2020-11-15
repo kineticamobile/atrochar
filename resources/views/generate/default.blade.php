@@ -10,6 +10,7 @@
                 {!! $menu->icon() !!}
                 {{ $menu->name }}
             </a>
+            <!-- Submenus -->
             @if($menu->menus->count() > 0)
                 <div>
                     @foreach ($menu->menus as $subitemMenu)
@@ -23,6 +24,7 @@
                     @endforeach
                 </div>
             @endif
+            <!-- End Submenus -->
         </li>
     @endforeach
 @endisset
