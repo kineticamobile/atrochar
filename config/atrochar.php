@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "prefix" => 'atrochar',
+    "iframe" => 'i',
     "defaultTheme" => [
         "linkTag" => "a",
         "class" => "",

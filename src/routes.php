@@ -5,11 +5,14 @@ use Kineticamobile\Atrochar\Facades\Atrochar;
 use Kineticamobile\Atrochar\Middleware\ManageMenuMiddleware;
 use Kineticamobile\Atrochar\Models\Menu;
 
+$prefix = config('atrochar.prefix') ?? "atrochar";
+$iframe = config('atrochar.iframe') ?? "i";
+
 Route::namespace("Kineticamobile\Atrochar\Controllers")
-    ->prefix('atrochar') //  Url
-    ->as('atrochar.') // Name of routes
+    ->prefix($prefix) //  Url
+    ->as("atrochar.") // Name of routes
     ->middleware(['web','auth:sanctum', ManageMenuMiddleware::class])
-    ->group(function () {
+    ->group(function () use ($iframe){
 
         Route::resource('menus', 'MenuController');
         Route::resource('menuitems', 'MenuItemController');
@@ -19,7 +22,7 @@ Route::namespace("Kineticamobile\Atrochar\Controllers")
             ]);
         })->name("menus.ul");
 
-        Route::get('i/{menu}', function(Menu $menu){
+        Route::get($iframe.'/{menu}', function(Menu $menu){
             return view("atrochar::menus.iframe", [
                 "menu" => $menu
             ]);
