@@ -123,6 +123,9 @@ class AtrocharServiceProvider extends ServiceProvider
         Blade::directive('menu', function ($slot) {
             return "<?php echo Atrochar::generateMenu($slot) ?>";
         });
+        Blade::directive('menuview', function ($slot) {
+            return "<?php echo Atrochar::generateMenuView($slot) ?>";
+        });
         Blade::if('menu_exists', function ($menu) {
             return Atrochar::exists($menu);
         });

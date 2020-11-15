@@ -24,6 +24,11 @@
             <br/><br/>
             Object - Using Options- @@menu($menu, ["class" => "bg-gray-500 font-mono"])<hr>
             @menu($menu, ["class" => "bg-gray-500 font-mono"])
+            <br/><br/>
+            Object - Using View 'default' - @@menuview($menu)<hr>
+            @menuview($menu)
+            Object - Using View 'jetstream' - @@menuview($menu, 'jetstream')<hr>
+            @menuview($menu, 'jetstream')
         </div>
     </div>
 </x-app-layout>

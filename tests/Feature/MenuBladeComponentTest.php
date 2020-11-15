@@ -46,6 +46,28 @@ class MenuBladeComponentTest extends TestCase
         $this->assertEquals("<?php echo Atrochar::generateMenu('$name', ['class' => 'test']) ?>", $compiled);
     }
 
+    public function testCompiledStringWhenMenuViewCalledWithNoParamenters()
+    {
+        $compiled = Blade::compileString("@menuview()");
+
+        $this->assertEquals("<?php echo Atrochar::generateMenuView() ?>", $compiled);
+    }
+
+    public function testCompiledStringWhenMenuViewCalledWithRandomName()
+    {
+        $name = $this->faker->word;
+        $compiled = Blade::compileString("@menuview($name)");
+
+        $this->assertEquals("<?php echo Atrochar::generateMenuView($name) ?>", $compiled);
+    }
+
+    public function testCompiledStringWhenMenuViewCalledWithRandomNameAndCustomView()
+    {
+        $name = $this->faker->word;
+        $compiled = Blade::compileString("@menuview($name, 'jetstream')");
+
+        $this->assertEquals("<?php echo Atrochar::generateMenuView($name, 'jetstream') ?>", $compiled);
+    }
 
 
 }

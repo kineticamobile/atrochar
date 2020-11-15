@@ -31,6 +31,23 @@ class Atrochar
         return Menu::check($menu);
     }
 
+    public static function generateMenuView($menu, $view = "default"){
+        $menuToShow =
+                ($menu instanceof Menu) ?
+                    $menu :(
+                is_string($menu) ?
+                    Menu::whole($menu) :(
+                is_int($menu) ?
+                    Menu::find($menu) :(
+
+                    null
+        )));
+
+        if($menuToShow == null){ return "Menu Not Found!"; }
+
+        return view("atrochar::generate.$view", ["menuToShow" => $menuToShow]);
+    }
+
     public static function generateMenu($menu, $options = [])
     {
         $menuToShow =

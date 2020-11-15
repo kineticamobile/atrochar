@@ -81,4 +81,36 @@ class Menu extends Model
 
         return false;
     }
+
+    public function href(){
+        $namedRoutes = Atrochar::getRouteNames();
+        $href = $this->iframe ?
+                    route("atrochar.menus.iframe", $this) :(
+                $namedRoutes->contains($this->href) ?
+                    route($this->href) :(
+
+                $this->href ));
+        return $href;
+    }
+
+    public function activeClass(){
+        return request()->url() === $this->href ? 'active' : '';
+    }
+
+    public function target(){
+        return $this->newwindow ? " target='_blank' ": "";
+    }
+
+    public function icon(){
+        return $this->icon != "" ? "<i class='fas fa-{$this->icon}'></i>" : "";
+    }
+
+    public function notAllow($user){
+        return $this->permission != "" && !$user->canViewMenuItem($this->permission);
+    }
+
+    public function link(){
+        return "<a href='{$this->href()}' {$this->target()} class='{$this->activeClass()} '>{$this->icon()}{$this->name}</a>";
+    }
+
 }
