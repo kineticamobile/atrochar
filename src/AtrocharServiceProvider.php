@@ -100,9 +100,9 @@ class AtrocharServiceProvider extends ServiceProvider
         ], 'atrochar.config');
 
         // Publishing the views.
-        /*$this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/kineticamobile'),
-        ], 'atrochar.views');*/
+        $this->publishes([
+            __DIR__.'/../resources/views' => base_path('resources/views/vendor/atrochar'),
+        ], 'atrochar.views');
 
         // Publishing assets.
         /*$this->publishes([
