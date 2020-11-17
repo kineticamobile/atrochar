@@ -102,7 +102,7 @@ class Menu extends Model
     }
 
     public function icon(){
-        return $this->icon != "" ? "<i class='fas fa-{$this->icon}'></i>" : "";
+        return $this->icon != "" ? $this->icon : "";
     }
 
     public function notAllow($user){

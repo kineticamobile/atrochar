@@ -31,7 +31,8 @@ class MenuItemController extends Controller
 
         return view("atrochar::menuitems.create", [
             "parent" => Menu::find(request('parent')),
-            "routes" => Atrochar::getRouteNames()
+            "routes" => Atrochar::getRouteNames(),
+            "icons" => Atrochar::getIcons()
         ]);
     }
 
@@ -90,7 +91,8 @@ class MenuItemController extends Controller
         return view("atrochar::menuitems.edit", [
             "parent" => $menuitem->menu,
             "menu" => $menuitem,
-            "routes" => Atrochar::getRouteNames()
+            "routes" => Atrochar::getRouteNames(),
+            "icons" => Atrochar::getIcons()
         ]);
     }
 

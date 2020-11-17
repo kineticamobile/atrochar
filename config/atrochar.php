@@ -3,6 +3,8 @@
 return [
     "prefix" => 'atrochar',
     "iframe" => 'i',
+    "iconsPath" => "media/svg/icons",
+    "iconsAllowedExtension" => ['svg'],
     "defaultTheme" => [
         "linkTag" => "a",
         "class" => "",

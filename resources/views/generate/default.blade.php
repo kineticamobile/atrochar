@@ -7,7 +7,9 @@
         @endphp
         <li>
             <a href='{{ $menu->href() }}' {!! $menu->target() !!} class='{{ $menu->activeClass() }}'>
-                {!! $menu->icon() !!}
+                @if ($menu->icon() != "")
+                    <img style="display:inline" src="{{ $menu->icon() }}" />
+                @endif
                 {{ $menu->name }}
             </a>
             <!-- Submenus -->
@@ -17,7 +19,9 @@
                         @php if($menu->notAllow(request()->user())) { continue; } @endphp
 
                         <a href='{{ $subitemMenu->href() }}' {!! $subitemMenu->target() !!} class='{{ $subitemMenu->activeClass() }}'>
-                            {!! $subitemMenu->icon() !!}
+                            @if ($subitemMenu->icon() != "")
+                                <img style="display:inline" src="{{ $subitemMenu->icon() }}" />
+                            @endif
                             {{ $subitemMenu->name }}
                         </a>
 

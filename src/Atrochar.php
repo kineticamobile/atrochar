@@ -5,9 +5,31 @@ namespace Kineticamobile\Atrochar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Kineticamobile\Atrochar\Models\Menu;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class Atrochar
 {
+    public static function getIcons($path = "")
+    {
+        $path = public_path( config("atrochar.iconsPath") );
+        if(!is_dir($path)){
+            return [];
+        }
+        $allowedExtensions = collect(config("atrochar.iconsAllowedExtension"));
+        $publicPath = public_path();
+        $icons = [];
+        $files = new RecursiveDirectoryIterator($path);
+        foreach (new RecursiveIteratorIterator($files) as $file) {
+            if ($file->isDir() || !$allowedExtensions->contains($file->getExtension()) ) {
+                continue;
+            }
+            $relatedUrlPath = str_replace($publicPath, "", $file->getPathName());
+            $icons[$file->getPathInfo()->getFileName()][$relatedUrlPath] = $file->getBasename('.' . $file->getExtension());
+        }
+        return $icons;
+    }
+
     public static function getRouteNames()
     {
         return collect(Route::getRoutes())

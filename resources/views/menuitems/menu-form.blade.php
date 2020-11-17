@@ -1,3 +1,6 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <x-atrochar-form-section method="{{$method}}" action="{{ $action }}">
     <x-slot name="title">
         <a href="{{ route('atrochar.menus.show', $parent) }}"> {{ $parent->name }}</a>
@@ -44,9 +47,15 @@
             <!-- icon -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="icon" value="{{ __('Icon') }}" />
-                <x-jet-input id="icon" type="text" class="mt-1 block w-full" name="icon"
-                    value="{{old('icon', isset($menu) ? $menu->icon : '' )}}"   />
-                <x-jet-input-error for="href" class="mt-2" />
+                <select id="icon" class="mt-1 block w-full" name="icon">
+                    @foreach($icons as $groupName => $groupIcons)
+                        <optgroup label="{{$groupName}}">
+                            @foreach ($groupIcons as $key => $label)
+                                <option value="{{ $key }}" {{ ($key == old('icon', isset($menu) ? $menu->icon : '' ) ? 'selected':'') }}>{{ $label }}</option>
+                            @endforeach
+                        </optgroup>
+                    @endforeach
+                </select>
             </div>
 
             <!-- permission -->
@@ -93,3 +102,17 @@
         </x-slot>
 
 </x-atrochar-form-section>
+<script>
+    function formatIcon (icon) {
+        if(icon.id == null){ return icon.text }
+        var $icon = '<span><img style="display:inline" src="' + icon.id + '" /> ' + icon.text + '<span>';
+        return  $icon;
+    };
+    $(document).ready(function() {
+        $('#icon').select2({
+            templateResult: formatIcon,
+            templateSelection: formatIcon,
+            escapeMarkup: (markup) => markup,
+        });
+    });
+</script>
