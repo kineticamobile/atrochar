@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "middleware" => 'auth:sanctum',
     "prefix" => 'atrochar',
     "iframe" => 'i',
     "iconsPath" => "media/svg/icons",

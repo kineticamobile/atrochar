@@ -7,11 +7,11 @@ use Kineticamobile\Atrochar\Models\Menu;
 
 $prefix = config('atrochar.prefix') ?? "atrochar";
 $iframe = config('atrochar.iframe') ?? "i";
-
+$middleware = config('atrochar.middleware') ?? 'auth:sanctum';
 Route::namespace("Kineticamobile\Atrochar\Controllers")
     ->prefix($prefix) //  Url
     ->as("atrochar.") // Name of routes
-    ->middleware(['web','auth:sanctum', ManageMenuMiddleware::class])
+    ->middleware(['web',$middleware, ManageMenuMiddleware::class])
     ->group(function () use ($iframe){
 
         Route::resource('menus', 'MenuController');
