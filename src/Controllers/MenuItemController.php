@@ -105,7 +105,6 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, Menu $menuitem)
     {
-
         $validatedAttributes = request()->validate([
             "name" => "required",
             "href" => "required",
@@ -154,8 +153,10 @@ class MenuItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Menu $menuitem)
     {
-        //
+        $menuitem->menus()->delete();
+        $menuitem->delete();
+        return redirect()->route("atrochar.menus.show", $menuitem->menu_id);
     }
 }

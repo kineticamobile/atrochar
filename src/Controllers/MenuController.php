@@ -67,9 +67,9 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Menu $menu)
     {
-        //
+        return view("atrochar::menus.edit", compact('menu'));
     }
 
     /**
@@ -79,9 +79,14 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Menu $menu)
     {
-        //
+        $validatedAttributes = request()->validate(["name" => "required"]);
+
+        $validatedAttributes["description"] = request('description') ?? "";
+
+        $menu->update($validatedAttributes);
+        return redirect()->route("atrochar.menus.index");
     }
 
     /**
@@ -90,8 +95,10 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Menu $menu)
     {
-        //
+        $menu->menus()->delete();
+        $menu->delete();
+        return redirect()->route("atrochar.menus.index");
     }
 }
