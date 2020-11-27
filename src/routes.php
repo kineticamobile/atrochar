@@ -2,16 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use Kineticamobile\Atrochar\Facades\Atrochar;
-use Kineticamobile\Atrochar\Middleware\ManageMenuMiddleware;
 use Kineticamobile\Atrochar\Models\Menu;
 
 $prefix = config('atrochar.prefix') ?? "atrochar";
 $iframe = config('atrochar.iframe') ?? "i";
-$middleware = config('atrochar.middleware') ?? 'auth:sanctum';
+$middleware = config('atrochar.middleware') ?? ['web','auth:sanctum', ManageMenuMiddleware::class];
 Route::namespace("Kineticamobile\Atrochar\Controllers")
     ->prefix($prefix) //  Url
     ->as("atrochar.") // Name of routes
-    ->middleware(['web',$middleware, ManageMenuMiddleware::class])
+    ->middleware($middleware)
     ->group(function () use ($iframe){
 
         Route::resource('menus', 'MenuController');

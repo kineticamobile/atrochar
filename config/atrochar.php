@@ -1,7 +1,8 @@
 <?php
+use Kineticamobile\Atrochar\Middleware\ManageMenuMiddleware;
 
 return [
-    "middleware" => 'auth:sanctum',
+    "middleware" => ['auth','menu',ManageMenuMiddleware::class],
     "prefix" => 'atrochar',
     "iframe" => 'i',
     "iconsPath" => "media/svg/icons",
